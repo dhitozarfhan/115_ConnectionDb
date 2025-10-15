@@ -43,3 +43,31 @@ app.get('/mahasiswa', (req, res) => {
   });
 });
 
+// POST /mahasiswa - tambah data baru
+app.post('/mahasiswa', (req, res) => {
+  console.log('Body yang diterima:', req.body);
+
+  const { nama, alamat, agama } = req.body;
+
+  if (!nama || !alamat || !agama) {
+    return res.status(400).json({ message: 'Semua field wajib diisi' });
+  }
+
+  const sql = 'INSERT INTO biodata (nama, alamat, agama) VALUES (?, ?, ?)';
+  db.query(sql, [nama, alamat, agama], (err, result) => {
+    if (err) {
+      console.error('Gagal menambahkan data:', err);
+      return res.status(500).json({ message: 'Gagal menambahkan data', error: err });
+    }
+
+    res.json({
+      message: 'Data berhasil ditambahkan',
+      insertedId: result.insertId,
+    });
+  });
+});
+
+// Jalankan server
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
