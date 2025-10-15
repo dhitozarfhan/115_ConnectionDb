@@ -13,4 +13,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+// Koneksi database
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  port: '3306',
+  password: 'Superhero02', // sesuaikan password kamu
+  database: 'mahasiswa',
+});
 
