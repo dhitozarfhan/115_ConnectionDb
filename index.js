@@ -22,3 +22,24 @@ const db = mysql.createConnection({
   database: 'mahasiswa',
 });
 
+// Cek koneksi
+db.connect((err) => {
+  if (err) {
+    console.log('Error connecting to MySQL: ' + err.stack);
+    return;
+  }
+  console.log('MySQL Connected Successfully');
+});
+
+// GET /mahasiswa - ambil semua data
+app.get('/mahasiswa', (req, res) => {
+  const sql = 'SELECT * FROM biodata';
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('DB error on SELECT:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+    res.json(results);
+  });
+});
+
